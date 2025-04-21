@@ -1,0 +1,11 @@
+---
+# tasks file for choose_host
+- ansible.builtin.package:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - sysstat
+- ansible.builtin.shell: mpstat | grep all | awk '{print $13}'
+  register: idle_percent
+- ansible.builtin.set_fact:
+    kv_pair: "{{ {} | combine( { inventory_hostname : idle_percent.stdout } ) }}" 
