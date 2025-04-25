@@ -1,0 +1,7 @@
+---
+# tasks file for check_postgresql
+- community.postgresql.postgresql_query:
+    db: postgres
+    query: SELECT 1
+- debug:
+    var: query_all_results

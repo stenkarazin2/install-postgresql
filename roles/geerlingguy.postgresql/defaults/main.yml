@@ -16,13 +16,15 @@ postgresql_auth_method: "{{ ansible_fips  | ternary('scram-sha-256', 'md5') }}"
 postgresql_unix_socket_directories:
   - /var/run/postgresql
 
-#second_host_ip_address: 158.160.57.17
+ip_address_for_student: 192.168.10.25
 
 postgresql_service_state: started
 postgresql_service_enabled: true
 
 # Global configuration options that will be set in postgresql.conf.
 postgresql_global_config_options:
+  - option: listen_addresses
+    value: '*'
   - option: unix_socket_directories
     value: '{{ postgresql_unix_socket_directories | join(",") }}'
   - option: log_directory
@@ -32,7 +34,8 @@ postgresql_global_config_options:
 # variable's defaults reflect the defaults that come with a fresh installation.
 postgresql_hba_entries:
   - {type: local, database: all, user: postgres, auth_method: peer}
-  - {type: host,  database: all, user: jdoe,  address: '192.168.10.36/32', auth_method: trust }
+  - {type: host,  database: all, user: student,  ip_address: "{{ ip_address_for_student }}", ip_mask: '255.255.255.255', auth_method: "{{ postgresql_auth_method }}"}
+  - {type: host,  database: all, user: student,  address: '0.0.0.0/0',    auth_method: reject}
   - {type: local, database: all, user: all,      auth_method: peer}
   - {type: host,  database: all, user: all,      address: '127.0.0.1/32', auth_method: "{{ postgresql_auth_method }}"}
   - {type: host,  database: all, user: all,      address: '::1/128',      auth_method: "{{ postgresql_auth_method }}"}

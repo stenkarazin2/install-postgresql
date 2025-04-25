@@ -1,4 +1,8 @@
 - hosts: all
   become: true
+  vars_files:
+    - vars/main.yml
+  vars:
+    ip_address_for_student: "{{ second_host_ip_address }}"
   roles:
     - role: geerlingguy.postgresql
