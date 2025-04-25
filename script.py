@@ -16,7 +16,7 @@ print( hosts[0] + "\'s \%idle: " + host_idle[hosts[0]] + "   " +
 if host_idle[hosts[0]] > host_idle[hosts[1]]:
   target_host = hosts[0]
 else:
-  target_host = hosts[0]
+  target_host = hosts[1]
 print( "...... host " + target_host + " chosen!" )
 #-------------------------------------------------------
 print( "Installing PostgreSQL ..." )
