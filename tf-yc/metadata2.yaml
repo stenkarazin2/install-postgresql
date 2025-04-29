@@ -1,0 +1,25 @@
+#cloud-config
+datasource:
+  Ec2:
+    strict_id: false
+ssh_pwauth: no
+users:
+- name: root
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+  shell: /bin/bash
+  ssh_authorized_keys:
+  - "ssh-rsa AAAAB3N..."
+write_files:
+  - path: "/usr/local/etc/startup.sh"
+    permissions: "755"
+    content: |
+      #!/bin/bash
+
+      yum update
+      yum install -y nginx
+      systemctl enable nginx
+      systemctl start nginx.service
+
+    defer: true
+runcmd:
+  - ["/usr/local/etc/startup.sh"]

@@ -1,0 +1,9 @@
+zone = "ru-central1-a"
+cloud_id  = "b1gm..."
+folder_id = "b1gk..."
+image_id1 = "fd8m15bv6aijt1qm7nul"
+image_id2 = "fd8kegd1fas8pbsipkr4"
+subnet_id = "e9bo..."
+bootdisk_size = 15
+service_account_id = "ajep..."
+yc_token = "y0__xCY..."

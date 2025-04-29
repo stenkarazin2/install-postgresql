@@ -1,0 +1,27 @@
+#cloud-config
+datasource:
+  Ec2:
+    strict_id: false
+ssh_pwauth: no
+users:
+- name: root
+  sudo: 'ALL=(ALL) NOPASSWD:ALL'
+  shell: /bin/bash
+  ssh_authorized_keys:
+  - "ssh-rsa AAAAB3N..."
+write_files:
+  - path: "/usr/local/etc/startup.sh"
+    permissions: "755"
+    content: |
+      #!/bin/bash
+
+      apt-get update
+      apt-get install -y nginx
+      #service nginx start
+      #systemctl enable nginx
+      systemctl start nginx.service
+
+      sed -i -- "s/ nginx/ Yandex Cloud - ${HOSTNAME}/" /var/www/html/index.nginx-debian.html
+    defer: true
+runcmd:
+  - ["/usr/local/etc/startup.sh"]
