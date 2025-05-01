@@ -1,0 +1,12 @@
+---
+# tasks file for lookup_ip_address
+- ansible.builtin.package:
+    name: bind
+    state: present
+- ansible.builtin.shell: dig {{ inventory_hostname }} +short
+  register: second
+- ansible.builtin.set_fact:
+    key: "{{ inventory_hostname }}{{ inventory_hostname }}"
+    second_host_ip_address: "{{ ( second.stdout != '' ) | ternary( second.stdout, inventory_hostname ) }}"
+- ansible.builtin.set_fact:
+    kvpair: "{{ {} | combine( { key : second_host_ip_address } ) }}"
