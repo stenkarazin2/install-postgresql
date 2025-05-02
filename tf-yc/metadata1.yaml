@@ -17,8 +17,7 @@ write_files:
 
       apt-get update
       apt-get install -y nginx
-      #service nginx start
-      #systemctl enable nginx
+
       systemctl start nginx.service
 
       sed -i -- "s/ nginx/ Yandex Cloud - ${HOSTNAME}/" /var/www/html/index.nginx-debian.html
